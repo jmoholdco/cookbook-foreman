@@ -13,9 +13,5 @@ describe 'foreman::default' do
     it 'converges successfully' do
       chef_run # This should not raise an error
     end
-
-    it 'installs the epel-release package' do
-      expect(chef_run).to install_yum_package 'epel-release'
-    end
   end
 end
