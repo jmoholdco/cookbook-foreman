@@ -11,7 +11,18 @@ describe 'foreman::default' do
     let(:chef_run) { ChefSpec::SoloRunner.new.converge(described_recipe) }
 
     it 'converges successfully' do
-      chef_run # This should not raise an error
+      expect { chef_run }.to_not raise_error
+    end
+
+    it 'creates the ca cert' do
+      expect(chef_run).to create_ca_certificate('Foreman CA').with(
+        common_name: 'JML Foreman CA',
+        type: 'intermediate'
+      )
+    end
+
+    it 'includes the firewall recipe' do
+      expect(chef_run).to include_recipe 'foreman::firewall_rules'
     end
   end
 end
